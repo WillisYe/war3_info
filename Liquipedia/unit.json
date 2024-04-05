@@ -1,0 +1,63 @@
+{
+  "name": "Dragonhawk Rider",
+  "icon": "https://liquipedia.net/commons/images/6/69/Wc3BTNDragonHawk.png",
+  "Built From": "Gryphon Aviary",
+  "Cost": "200 30 28 3",
+  "Hit Points": "625 (725)",
+  "HP Regeneration": "0.25 (always)",
+  "Armor": "1 (7)",
+  "Race": "Human",
+  "Formation Rank": "2",
+  "Sight": "1600 / 900",
+  "Acquisition Range": "600",
+  "Level": "3",
+  "Mana": "300",
+  "Initial Mana": "150",
+  "Mana Regeneration": "0.75",
+  "Selection Priorty": "4",
+  "Speed": "350",
+  "Turn Rate": "0.4",
+  "Move Type": "fly",
+  "Collision Size": "8",
+  "Cargo Size": "0",
+  "Damage": "18 - 21 (21 - 29)",
+  "Range": "300",
+  "Weapon Type": "missile",
+  "Cooldown": "1.75",
+  "Targets": "ground structure debris air item ward",
+  "spells": [
+    {
+      "tit": "Aerial Shackles",
+      "icon": "https://liquipedia.net/commons/images/0/0f/Aerialshackles.gif",
+      "Cast Type": "Channel",
+      "Target Type": "Unit Target",
+      "Cast Requirements": "75 30 s",
+      "Targets Allowed": "Air, Enemy, Organic",
+      "Duration": "40 (10) s",
+      "Damage": "30 per second"
+    },
+    {
+      "tit": "Cloud",
+      "icon": "https://liquipedia.net/commons/images/3/37/Cloud.gif",
+      "Cast Type": "Channel",
+      "Target Type": "Area Target",
+      "Cast Requirements": "100 20 s",
+      "Targets Allowed": "Structure",
+      "Area of Effect": "300",
+      "Hotkey": "C",
+      "Cost": "50 100",
+      "Researched at": "Gryphon Aviary",
+      "Requirements": "Arcane Vault, Castle"
+    },
+    {
+      "tit": "Animal War Training",
+      "icon": "https://liquipedia.net/commons/images/d/d1/Wc3PASBTNAnimalWarTraining.png",
+      "Cast Type": "Passive",
+      "Target Type": "No Target",
+      "Hit Point Bonus": "100",
+      "Cost": "125 125",
+      "Researched at": "Barracks (Human)",
+      "Requirements": "Lumber Mill, Castle, Blacksmith"
+    }
+  ]
+}
