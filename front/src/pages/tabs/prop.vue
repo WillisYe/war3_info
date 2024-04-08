@@ -2,187 +2,196 @@
  * @Author: dary
  * @Date: 2021-03-05 17:37:34
  * @LastEditors: dary
- * @LastEditTime: 2021-03-09 11:42:19
+ * @LastEditTime: 2021-03-09 15:15:16
  * @Description: file content
 -->
 
 <template>
-	<view class="prop-wrap">
-		<u-navbar title="宝物大全" :is-back="false" title-color="#fff" :background="{'backgroundColor': '#26a2ff'}" back-icon-color="#fff"></u-navbar>
+	<view class="customer-services">
+		<u-navbar title="宝物大全" title-color="#fff" :background="{'backgroundColor': '#26a2ff'}" :is-back="false"></u-navbar>
+
 		<view class="content-outer">
-			<view class="content-wrap">
-				<div v-html="content"></div>
+			<view class="unit-list">
+				<view @click="changeTab(index, tab)" :class="current.index===index?'active':''" class="unit-item" v-for="(tab,index) in tabs" :key="tab.key">{{tab.name}}</view>
+			</view>
+			<view class="list-wrap" v-for="(item) in current.list" :key="item.level">
+				<view class="list-tit">
+					{{item.level}}级
+				</view>
+				<view class="item-wrap" v-for="(prop,index) in item.list" :key="index">
+					<image class="item-img" mode="widthFix" :src="prop.icon"></image>
+					<view class="item-info">
+						<view class="item-tit"> {{prop.name}} </view>
+						<view class="item-info-inner">
+							<text v-if="prop.Cost">黄金:{{prop.Cost}}</text>							
+							<text v-if="prop['Stock Max'] && prop['Stock Max']>1">库存:{{(prop['Stock Max'])}}</text>
+							<text v-if="prop['Stock Repl. Interval']">刷新时间:{{(prop['Stock Repl. Interval'])}}s</text>
+							<text v-if="prop['Cooldown']">冷却时间:{{(prop['Cooldown'])}}s</text>
+							<text v-if="prop['Duration']">持续时间:{{(prop['Duration'])}}s</text>
+							<text v-if="prop['Purchase Hotkey']">快捷键:{{(prop['Purchase Hotkey'])}}</text>
+							<text v-if="prop['Charges'] && prop['Charges']>1">使用次数:{{(prop['Charges'])}}</text>
+							<text v-if="prop['Sold From']">{{getMerchantName(prop['Sold From'])}}</text>
+						</view>
+						<template v-for="(propVal,propKey) in prop" :key="propKey">
+							<view v-if="keysOther.includes(propKey)"> {{propKey}}:{{propVal}} </view>
+						</template>
+						<view class="item-des"> {{prop.Description}} </view>
+					</view>
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
-import prop from "@/common/json/prop.json";
-	let imgs = [
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/staffofpreservation.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/staffofsanctuary.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/cloak.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/gauntletsofogrestrength.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/mantleofintelligence.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/slippersofagility.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/staffofteleportation.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/circlet.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/clawsofattack.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/glove.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ringgreen.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/bootsofspeed.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/clawsofattack.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ringgreen.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/pendantofenergy.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/periapt.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ringskull.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/talisman.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/orbofcorruption.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/orbofvenom.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/orboffire.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/orboflightning.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/runedbracers.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/sobimask.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/belt.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/boots.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/robeofthemagi.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/alleriaflute.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/bonechimes.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/hornofdoom.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/lionhorn.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/drum.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ancientjanggo.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/pipeofinsight.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/clawsofattack.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/crystalball.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/cloakofflames.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/helmofvalor.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/hoodofcunning.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/medallionofcourage.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/spellshieldamulet.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/periapt1.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/pendantofmana.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ringgreen.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/orbofdarkness.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/staffofsilence.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/clawsofattack.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ringgreen.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/orboffrost.gif",
-		"http://image2.sina.com.cn/gm/ol/war3/lqbz/BAOWU02.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/crownofkings.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/maskofdeath.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/manual.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeblue.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeblue.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeblue.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomebrown.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeblue.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeblue.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeblue.gif",
-		"http://image2.sina.com.cn/gm/ol/war3/lqbz/BAOWU01.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomered.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/healing.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/healingsalve.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/mana.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/lesserclaritypotion.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/scrollofregenerationgreen.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/scrollofhealing.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/greaterhealing.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/greatermana.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/rejuvpotion.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/potionofrestoration.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/scrollofrestoration.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/healthstone.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/manastone.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/lesserinvulneralbility.gif",
-		"http://image2.sina.com.cn/gm/ol/war3/lqbz/0011.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/potionofdivinity.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/orc/spells/healingward.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/bookofthedead.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/stonetoken.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/reddrakeegg.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/felhound.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/stone.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/iceshard.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/amuletofthewild.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/demonicfigurine.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/infernalstone.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/scrollofanimatedead.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/scrollofresurrection.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/dustofappearance.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/wand.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tomeofretraining.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/tinygreathall.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ivorytower.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/mechanicalcritter.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/moonstone.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/ankh.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/wandofthewind.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/scrollofthebeast.gif",
-		"http://image2.sina.com.cn/gm/upload/20040813/88/1092378821/war3/images/items/wandofmanasteal.gif"
-	];
+	import _itemsData from "@/common/json/items.json";
+	var itemsData = _itemsData.map(item => {
+		item.Level = item.Level || '0'
+		var arr = item.icon.split('/')
+		item.icon = '/static/items/' + arr[arr.length - 1]
+		return item
+	});
 
 	export default {
 		name: 'ServiceCenter',
 		data() {
 			return {
-				content: "",
-				list: []
+				tabs: [],
+				current: {
+					list: [],
+					index: 0
+				},
+				keysOther: [],
+				maps: {
+					Merchant: {
+						"Goblin Merchant": "地精商店",
+						"Ancient of Wonders": "奇迹古树",
+						"Tomb of Relics": "古墓废墟",
+						"Voodoo Lounge": "巫毒商店",
+						"Arcane Vault": "神秘藏宝室",
+					}
+				}
 			}
 		},
 		computed: {
 
 		},
 		onLoad() {
-			let content = prop[0]['正文'];
-			content = content.replace(/bgcolor="#292929"/g, "").replace(/http:/g, 'https:');
-			this.content = content;
-			let arr = content.match(/src="(.*?)"/g);
-			arr = arr.map(item => item.slice(5, -1));
-			// this.$nextTick().then(() => {
-			// 	let trs = document.getElementsByTagName("tr");
-			// 	for (let index = 0; index < trs.length; index++) {
-			// 		const tr = trs[index];
-			// 		if (index < 2) {
-			// 			tr.remove();
-			// 		}
-			// 		if (index === 2) {
-			// 			tr.children[0].innerHTML = "0级";
-			// 		}
-			// 	}
-			// });
+			var tabArr = itemsData.map(item => item.Class)
+			var tabs = [...new Set(tabArr)].filter(item => item)
+			this.tabs = tabs.map(item => {
+				return {
+					name: item,
+					key: item
+				}
+			})
+			this.changeTab(0, this.tabs[0]);
+
+			var keys = []
+			for (const item of itemsData) {
+				keys = keys.concat(Object.keys(item))
+			}
+			var keyList = [...new Set(keys)]
+			this.keysOther = keyList.filter(item => !['name', 'Class', 'Level', 'Cost', 'Description', 'icon', 'Sell value', 'url', 'Sold From', 'Stock Max', 'Stock Repl. Interval', 'Purchase Hotkey', 'Charges', 'Cooldown', "Cooldown Group", "Stock Start Delay", "Duration"].includes(item))
+			console.log(this.keysOther)
 		},
 		onShow() {
 
 		},
 		methods: {
+			changeTab(index, tab) {
+				this.current.index = index;
+				var list = itemsData.filter(item => item.Class == tab.key);
+				var levelsArr = list.map(item => item.Level)
+				var levels = [...new Set(levelsArr)].filter(item => item).sort()
+				this.current.list = levels.map(level => {
 
+					var items = list.filter(item => item.Level == level)
+					var uniqueItems = Array.from(new Map(items.map(item => [item.name, item])).values());
+					// uniqueItems = uniqueItems.sort((a, b) => a.Cost - b.Cost)
+
+					return {
+						level: level,
+						list: uniqueItems
+					}
+				})
+
+				console.log(this.current.list)
+			},
+			getMerchantName(merchant) {
+				var name = this.maps.Merchant[merchant]
+				if (!name) {
+					var arr = []
+					var _merchant = merchant
+					Object.entries(this.maps.Merchant).forEach(([key, val]) => {
+						if (_merchant.includes(key)) {
+							arr.push(val)
+							_merchant = _merchant.replace(key, '')
+						}
+					});
+					if (_merchant) {
+						arr.push(_merchant)
+					}
+					return arr.join(',')
+				}
+				return name
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.prop-wrap {
-		display: block;
-		::v-deep table {
-			max-width: 100% !important;
-			width: auto !important;
-			margin: -25px 0 -150px !important;
-			td {
-				padding: 5px 0;
+	.unit-list {
+		border-top: 1px solid #eee;
+		border-left: 1px solid #eee;
+		font-size: 0;
+		.unit-item {
+			display: inline-block;
+			font-size: 14px;
+			width: 33.3%;
+			height: 30px;
+			line-height: 30px;
+			text-align: center;
+			border-bottom: 1px solid #eee;
+			border-right: 1px solid #eee;
+			overflow: hidden;
+			&.active {
+				color: green;
 			}
-			img {
+		}
+	}
+	.list-wrap {
+		margin-top: 10px;
+		.list-tit {
+			font-weight: 900;
+			margin-top: 20px;
+			margin-bottom: 10px;
+		}
+		.item-wrap {
+			display: flex;
+			align-items: start;
+			margin-bottom: 10px;
+			line-height: 1.5;
+			.item-img {
 				width: 64px;
 				height: 64px;
 				margin-right: 10px;
+				flex: 0 0 64px;
 			}
-			table {
-				display: none;
+			.item-info {
+				.item-tit {
+					color: #ff0000;
+				}
+				.item-info-inner {
+					& > * {
+						display: inline-block;
+						margin-right: 10px;
+						&:last-child {
+							margin-right: 0;
+						}
+					}
+				}
 			}
-		}
-		.content-outer {
-			padding-bottom: 0;
 		}
 	}
 </style>
