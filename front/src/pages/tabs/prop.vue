@@ -1,45 +1,44 @@
-<!--
- * @Author: dary
- * @Date: 2021-03-05 17:37:34
- * @LastEditors: dary
- * @LastEditTime: 2021-03-09 15:15:16
- * @Description: file content
--->
-
 <template>
 	<view class="customer-services">
 		<u-navbar title="宝物大全" title-color="#fff" :background="{'backgroundColor': '#26a2ff'}" :is-back="false"></u-navbar>
 
 		<view class="content-outer">
 			<view class="unit-list">
-				<view @click="changeTab(index, tab)" :class="current.index===index?'active':''" class="unit-item" v-for="(tab,index) in tabs" :key="tab.key">{{tab.name}}</view>
+				<view @click="changeTab(index, tab)" :class="current.index===index?'active':''" class="unit-item" v-for="(tab,index) in tabs" :key="tab.key">{{maps.type[tab.name] || tab.name}}</view>
 			</view>
 			<view class="list-wrap" v-for="(item) in current.list" :key="item.level">
 				<view class="list-tit">
-					{{item.level}}级
+					{{item.level}}级（{{item.list.length}}）
 				</view>
-				<view class="item-wrap" v-for="(prop,index) in item.list" :key="index">
-					<image class="item-img" mode="widthFix" :src="prop.icon"></image>
-					<view class="item-info">
-						<view class="item-tit"> {{prop.name}} </view>
-						<view class="item-info-inner">
-							<text v-if="prop.Cost">黄金:{{prop.Cost}}</text>							
-							<text v-if="prop['Stock Max'] && prop['Stock Max']>1">库存:{{(prop['Stock Max'])}}</text>
-							<text v-if="prop['Stock Repl. Interval']">刷新时间:{{(prop['Stock Repl. Interval'])}}s</text>
-							<text v-if="prop['Cooldown']">冷却时间:{{(prop['Cooldown'])}}s</text>
-							<text v-if="prop['Duration']">持续时间:{{(prop['Duration'])}}s</text>
-							<text v-if="prop['Purchase Hotkey']">快捷键:{{(prop['Purchase Hotkey'])}}</text>
-							<text v-if="prop['Charges'] && prop['Charges']>1">使用次数:{{(prop['Charges'])}}</text>
-							<text v-if="prop['Sold From']">{{getMerchantName(prop['Sold From'])}}</text>
-						</view>
-						<template v-for="(propVal,propKey) in prop" :key="propKey">
-							<view v-if="keysOther.includes(propKey)"> {{propKey}}:{{propVal}} </view>
-						</template>
-						<view class="item-des"> {{prop.Description}} </view>
-					</view>
+				<view class="u-flex u-col-center u-flex-wrap">
+					<image @click="showDetail(prop)" v-for="(prop,index) in item.list" :key="index" class="item-img" mode="widthFix" :src="prop.icon"></image>
 				</view>
 			</view>
 		</view>
+
+		<u-popup v-model="detailPopup.show" mode="bottom" border-radius="14" closeable>
+			<view class="item-wrap">
+				<image class="item-img" mode="widthFix" :src="detailPopup.data.icon"></image>
+				<view class="item-info">
+					<view class="item-tit"> {{detailPopup.data.name}} </view>
+					<view class="item-info-inner">
+						<text v-if="detailPopup.data.Cost">黄金:{{detailPopup.data.Cost}}</text>
+						<text v-if="detailPopup.data['Stock Max'] && detailPopup.data['Stock Max']>1">库存:{{(detailPopup.data['Stock Max'])}}</text>
+						<text v-if="detailPopup.data['Stock Repl. Interval']">刷新时间:{{(detailPopup.data['Stock Repl. Interval'])}}s</text>
+						<text v-if="detailPopup.data['Cooldown']">冷却时间:{{(detailPopup.data['Cooldown'])}}s</text>
+						<text v-if="detailPopup.data['Duration']">持续时间:{{(detailPopup.data['Duration'])}}s</text>
+						<text v-if="detailPopup.data['Cast Time']">施法时间:{{(detailPopup.data['Cast Time'])}}s</text>
+						<text v-if="detailPopup.data['Purchase Hotkey']">快捷键:{{(detailPopup.data['Purchase Hotkey'])}}</text>
+						<text v-if="detailPopup.data['Charges'] && detailPopup.data['Charges']>1">使用次数:{{(detailPopup.data['Charges'])}}</text>
+						<text v-if="detailPopup.data['Sold From']">{{getMerchantName(detailPopup.data['Sold From'])}}</text>
+					</view>
+					<template v-for="(propVal,propKey) in detailPopup.data" :key="propKey">
+						<view v-if="keysOther.includes(propKey)"> {{propKey}}:{{propVal}} </view>
+					</template>
+					<view class="item-des"> {{detailPopup.data.Description}} </view>
+				</view>
+			</view>
+		</u-popup>
 	</view>
 </template>
 
@@ -69,7 +68,19 @@
 						"Tomb of Relics": "古墓废墟",
 						"Voodoo Lounge": "巫毒商店",
 						"Arcane Vault": "神秘藏宝室",
+					},
+					type: {
+						"Permanent": "永久宝",
+						"Charged": "消耗宝",
+						"Power Up": "书籍",
+						"Artifact": "神器",
+						"Purchasable": "商店",
+						"Miscellaneous": "其它",
 					}
+				},
+				detailPopup: {
+					show: false,
+					data: {}
 				}
 			}
 		},
@@ -92,7 +103,7 @@
 				keys = keys.concat(Object.keys(item))
 			}
 			var keyList = [...new Set(keys)]
-			this.keysOther = keyList.filter(item => !['name', 'Class', 'Level', 'Cost', 'Description', 'icon', 'Sell value', 'url', 'Sold From', 'Stock Max', 'Stock Repl. Interval', 'Purchase Hotkey', 'Charges', 'Cooldown', "Cooldown Group", "Stock Start Delay", "Duration"].includes(item))
+			this.keysOther = keyList.filter(item => !['name', 'Class', 'Level', 'Cost', 'Description', 'icon', 'Sell value', 'url', 'Sold From', 'Stock Max', 'Stock Repl. Interval', 'Purchase Hotkey', 'Charges', 'Cooldown', "Cooldown Group", "Stock Start Delay", "Duration", "Cast Time"].includes(item))
 			console.log(this.keysOther)
 		},
 		onShow() {
@@ -135,6 +146,10 @@
 					return arr.join(',')
 				}
 				return name
+			},
+			showDetail(prop) {
+				this.detailPopup.data = prop
+				this.detailPopup.show = true
 			}
 		}
 	}
@@ -164,31 +179,36 @@
 		margin-top: 10px;
 		.list-tit {
 			font-weight: 900;
-			margin-top: 20px;
 			margin-bottom: 10px;
 		}
-		.item-wrap {
-			display: flex;
-			align-items: start;
-			margin-bottom: 10px;
-			line-height: 1.5;
-			.item-img {
-				width: 64px;
-				height: 64px;
-				margin-right: 10px;
-				flex: 0 0 64px;
+	}
+	.item-img {
+		width: 64px;
+		height: 64px;
+		margin-right: 10px;
+		margin-bottom: 10px;
+		flex: 0 0 64px;
+	}
+	.item-wrap {
+		display: flex;
+		align-items: start;
+		padding: 10px;
+		line-height: 1.5;
+
+		.item-img {
+			margin-bottom: 0px;
+		}
+
+		.item-info {
+			.item-tit {
+				color: #ff0000;
 			}
-			.item-info {
-				.item-tit {
-					color: #ff0000;
-				}
-				.item-info-inner {
-					& > * {
-						display: inline-block;
-						margin-right: 10px;
-						&:last-child {
-							margin-right: 0;
-						}
+			.item-info-inner {
+				& > * {
+					display: inline-block;
+					margin-right: 10px;
+					&:last-child {
+						margin-right: 0;
 					}
 				}
 			}
