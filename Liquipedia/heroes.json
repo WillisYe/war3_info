@@ -1,0 +1,122 @@
+[
+  {
+    "name": "Alchemist",
+    "url": "https://liquipedia.net/warcraft/Alchemist",
+    "icon": "https://liquipedia.net/commons/images/thumb/c/ce/Wc3BTNHeroAlchemist.png/30px-Wc3BTNHeroAlchemist.png"
+  },
+  {
+    "name": "Archmage",
+    "url": "https://liquipedia.net/warcraft/Archmage",
+    "icon": "https://liquipedia.net/commons/images/thumb/3/3a/Wc3BTNHeroArchMage.png/30px-Wc3BTNHeroArchMage.png"
+  },
+  {
+    "name": "Beastmaster",
+    "url": "https://liquipedia.net/warcraft/Beastmaster",
+    "icon": "https://liquipedia.net/commons/images/thumb/5/5e/Wc3BTNBeastMaster.png/30px-Wc3BTNBeastMaster.png"
+  },
+  {
+    "name": "Blademaster",
+    "url": "https://liquipedia.net/warcraft/Blademaster",
+    "icon": "https://liquipedia.net/commons/images/thumb/3/3a/Wc3BTNHeroBlademaster.png/30px-Wc3BTNHeroBlademaster.png"
+  },
+  {
+    "name": "Blood Mage",
+    "url": "https://liquipedia.net/warcraft/Blood_Mage",
+    "icon": "https://liquipedia.net/commons/images/thumb/6/63/Wc3BTNHeroBloodElfPrince.png/30px-Wc3BTNHeroBloodElfPrince.png"
+  },
+  {
+    "name": "Crypt Lord",
+    "url": "https://liquipedia.net/warcraft/Crypt_Lord",
+    "icon": "https://liquipedia.net/commons/images/thumb/d/d5/Wc3BTNHeroCryptLord.png/30px-Wc3BTNHeroCryptLord.png"
+  },
+  {
+    "name": "Dark Ranger",
+    "url": "https://liquipedia.net/warcraft/Dark_Ranger",
+    "icon": "https://liquipedia.net/commons/images/thumb/a/af/Wc3BTNBansheeRanger.png/30px-Wc3BTNBansheeRanger.png"
+  },
+  {
+    "name": "Death Knight",
+    "url": "https://liquipedia.net/warcraft/Death_Knight",
+    "icon": "https://liquipedia.net/commons/images/thumb/9/9f/Wc3BTNHeroDeathKnight.png/30px-Wc3BTNHeroDeathKnight.png"
+  },
+  {
+    "name": "Demon Hunter",
+    "url": "https://liquipedia.net/warcraft/Demon_Hunter",
+    "icon": "https://liquipedia.net/commons/images/thumb/3/3d/Wc3BTNHeroDemonHunter.png/30px-Wc3BTNHeroDemonHunter.png"
+  },
+  {
+    "name": "Dreadlord",
+    "url": "https://liquipedia.net/warcraft/Dreadlord",
+    "icon": "https://liquipedia.net/commons/images/thumb/e/e7/Wc3BTNHeroDreadLord.png/30px-Wc3BTNHeroDreadLord.png"
+  },
+  {
+    "name": "Far Seer",
+    "url": "https://liquipedia.net/warcraft/Far_Seer",
+    "icon": "https://liquipedia.net/commons/images/thumb/1/1b/Wc3BTNHeroFarseer.png/30px-Wc3BTNHeroFarseer.png"
+  },
+  {
+    "name": "Firelord",
+    "url": "https://liquipedia.net/warcraft/Firelord",
+    "icon": "https://liquipedia.net/commons/images/thumb/d/d2/Wc3BTNHeroAvatarOfFlame.png/30px-Wc3BTNHeroAvatarOfFlame.png"
+  },
+  {
+    "name": "Keeper of the Grove",
+    "url": "https://liquipedia.net/warcraft/Keeper_of_the_Grove",
+    "icon": "https://liquipedia.net/commons/images/thumb/c/cf/Wc3BTNKeeperOfTheGrove.png/30px-Wc3BTNKeeperOfTheGrove.png"
+  },
+  {
+    "name": "Lich",
+    "url": "https://liquipedia.net/warcraft/Lich",
+    "icon": "https://liquipedia.net/commons/images/thumb/5/55/Wc3BTNLichVersion2.png/30px-Wc3BTNLichVersion2.png"
+  },
+  {
+    "name": "Mountain King",
+    "url": "https://liquipedia.net/warcraft/Mountain_King",
+    "icon": "https://liquipedia.net/commons/images/thumb/9/9a/Wc3BTNHeroMountainKing.png/30px-Wc3BTNHeroMountainKing.png"
+  },
+  {
+    "name": "Naga Sea Witch",
+    "url": "https://liquipedia.net/warcraft/Naga_Sea_Witch",
+    "icon": "https://liquipedia.net/commons/images/thumb/3/32/Wc3BTNNagaSeaWitch.png/30px-Wc3BTNNagaSeaWitch.png"
+  },
+  {
+    "name": "Paladin",
+    "url": "https://liquipedia.net/warcraft/Paladin",
+    "icon": "https://liquipedia.net/commons/images/thumb/d/df/Wc3BTNHeroPaladin.png/30px-Wc3BTNHeroPaladin.png"
+  },
+  {
+    "name": "Pandaren Brewmaster",
+    "url": "https://liquipedia.net/warcraft/Pandaren_Brewmaster",
+    "icon": "https://liquipedia.net/commons/images/thumb/2/22/Wc3BTNPandarenBrewmaster.png/30px-Wc3BTNPandarenBrewmaster.png"
+  },
+  {
+    "name": "Pit Lord",
+    "url": "https://liquipedia.net/warcraft/Pit_Lord",
+    "icon": "https://liquipedia.net/commons/images/thumb/2/2b/Wc3BTNPitLord.png/30px-Wc3BTNPitLord.png"
+  },
+  {
+    "name": "Priestess of the Moon",
+    "url": "https://liquipedia.net/warcraft/Priestess_of_the_Moon",
+    "icon": "https://liquipedia.net/commons/images/thumb/e/ea/Wc3BTNPriestessOfTheMoon.png/30px-Wc3BTNPriestessOfTheMoon.png"
+  },
+  {
+    "name": "Shadow Hunter",
+    "url": "https://liquipedia.net/warcraft/Shadow_Hunter",
+    "icon": "https://liquipedia.net/commons/images/thumb/d/d9/Wc3BTNShadowHunter.png/30px-Wc3BTNShadowHunter.png"
+  },
+  {
+    "name": "Tauren Chieftain",
+    "url": "https://liquipedia.net/warcraft/Tauren_Chieftain",
+    "icon": "https://liquipedia.net/commons/images/thumb/f/f0/Wc3BTNHeroTaurenChieftain.png/30px-Wc3BTNHeroTaurenChieftain.png"
+  },
+  {
+    "name": "Tinker",
+    "url": "https://liquipedia.net/warcraft/Tinker",
+    "icon": "https://liquipedia.net/commons/images/thumb/3/3f/Wc3BTNHeroTinker.png/30px-Wc3BTNHeroTinker.png"
+  },
+  {
+    "name": "Warden",
+    "url": "https://liquipedia.net/warcraft/Warden",
+    "icon": "https://liquipedia.net/commons/images/thumb/c/c6/Wc3BTNHeroWarden.png/30px-Wc3BTNHeroWarden.png"
+  }
+]

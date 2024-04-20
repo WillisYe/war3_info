@@ -1,0 +1,120 @@
+{
+  "name": "Alchemist(Goblin Alchemist)",
+  "icon": "https://liquipedia.net/commons/images/6/6e/Wc3Alchemist.gif",
+  "Strength": "25 +3.3",
+  "Agility": "10 +1",
+  "Intelligence": "18 +2",
+  "Physical Damage": "28 - 55",
+  "Armor": "1",
+  "Primary Attribute": "Strength",
+  "Movement Speed": "290",
+  "Sight Range": "1800 / 800",
+  "Attack Range": "Melee / 500 (Air)",
+  "Turn Rate": "0.60",
+  "Hotkey": "X",
+  "levelsObj": {
+    "Level:": [
+      "1",
+      "5",
+      "10"
+    ],
+    "Hit Points:": [
+      "725",
+      "1050",
+      "1450"
+    ],
+    "HP Regen.:": [
+      "1.5",
+      "2.15",
+      "2.95"
+    ],
+    "Mana:": [
+      "270",
+      "390",
+      "540"
+    ],
+    "Mana Regen.:": [
+      "0.91",
+      "1.31",
+      "1.81"
+    ],
+    "Armor:": [
+      "1",
+      "2",
+      "4"
+    ],
+    "Damage:": [
+      "28 - 55",
+      "41 - 68",
+      "57 - 84"
+    ],
+    "Cooldown:": [
+      "2.08",
+      "1.95",
+      "1.81"
+    ]
+  },
+  "spells": [
+    {
+      "tit": "Healing Spray",
+      "icon": "https://liquipedia.net/commons/images/e/ea/BTNHealingSpray.png",
+      "des": "Sprays waves of healing mist that heals units in a target area.",
+      "Cast Type": "Channel",
+      "Ability Type": "Universal",
+      "Target Type": "Area Target",
+      "Cast Requirements": "75 6 s",
+      "Range": "800",
+      "Targets Allowed": "Friend, Self, Ground, Air, Organic",
+      "Area of Effect": "250",
+      "Amount per Wave": "30/45/60",
+      "Waves": "3/4/5",
+      "Heal cap per Wave": "280/385/490",
+      "Hotkey": "E"
+    },
+    {
+      "tit": "Chemical Rage",
+      "icon": "https://liquipedia.net/commons/images/b/bb/BTNChemicalRage.png",
+      "des": "The Alchemist causes his Ogre to enter a chemically induced rage, increasing movement rate by 40% and increasing attack rate.",
+      "Cast Type": "Active",
+      "Ability Type": "Magical",
+      "Target Type": "No Target",
+      "Cast Requirements": "25 30 s",
+      "Duration": "15 s",
+      "Attack Rate % Bonus": "25/75/125",
+      "Movement Speed": "40%",
+      "Transform Duration": "0.35 seconds",
+      "Notes": "Even though the green colored attack speed indicates that the Alchemist's attack speed is increased this is not true. In fact the Alchemist is only replaced by a unit with a higher base attack speed. In this form Alchemist can exceed 400 speed limit and reach 522 speed limit.",
+      "Hotkey": "R"
+    },
+    {
+      "tit": "Acid Bomb",
+      "icon": "https://liquipedia.net/commons/images/a/ac/BTNAcidBomb.png",
+      "des": "Hurls a flask of acid at a target. The flask breaks upon impact, splashing a powerful acid on nearby hostile units. Decreases armor; deals slightly less damage over time to nearby targets.",
+      "Cast Type": "Active",
+      "Ability Type": "Magical",
+      "Target Type": "Unit Target",
+      "Cast Requirements": "75 12 s",
+      "Range": "700",
+      "Targets Allowed": "Ground, Enemy, Neutral, Organic, Air",
+      "Area of Effect": "200",
+      "Duration": "15 s",
+      "Armor Penalty": "3/4/5",
+      "Target Damage": "5/10/17 per second",
+      "Secondary Damage": "3/6/11 per second",
+      "Hotkey": "B"
+    },
+    {
+      "tit": "Transmute",
+      "icon": "https://liquipedia.net/commons/images/4/45/Wc3BTNTransmute.png",
+      "des": "Kills a target unit instantly, transforming it into gold which is added to your available gold!Transmute cannot be used on Heroes, or creeps above level 5.",
+      "Cast Type": "Active",
+      "Ability Type": "Universal",
+      "Target Type": "Unit Target",
+      "Cast Requirements": "150 45 s",
+      "Range": "650",
+      "Targets Allowed": "Air, Ground, Enemy, Neutral, Non-Hero",
+      "Gold": "100% of target unit's gold cost.",
+      "Hotkey": "T"
+    }
+  ]
+}
